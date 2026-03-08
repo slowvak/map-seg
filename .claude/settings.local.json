@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(gh auth:*)",
+      "Bash(uv init:*)",
+      "Bash(uv add:*)",
+      "Bash(SSL_CERT_FILE=\"/Users/bje/Desktop/Zscaler Root CA.pem\" uv add:*)",
+      "Bash(uv run:*)",
+      "Bash(cp:*)",
+      "Bash(echo ===EXISTS:$?:*)",
+      "Bash(chmod +x:*)"
+    ]
+  }
+}
