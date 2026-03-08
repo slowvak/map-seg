@@ -15,12 +15,12 @@ def load_nifti(path: str) -> nib.Nifti1Image:
     if min_val < 0 or max_val > 255:
         print(f"Error: pixel values must be in [0, 255], got [{min_val}, {max_val}]")
         sys.exit(1)
-    return img
+    return img, min_val, max_val
 
 
-def get_mapping(max_val: int) -> dict[int, int]:
+def get_mapping(min_val: int, max_val: int) -> dict[int, int]:
     mapping = {}
-    for v in range(max_val + 1):
+    for v in range(min_val, max_val + 1):
         while True:
             try:
                 new_val = int(input(f"  {v} -> "))
@@ -48,13 +48,12 @@ def main():
     parser.add_argument("output", help="Output NIfTI file path")
     args = parser.parse_args()
 
-    img = load_nifti(args.input)
+    img, min_val, max_val = load_nifti(args.input)
     data = np.asarray(img.dataobj)
-    max_val = int(data.max())
 
-    print(f"Pixel value range: 0 to {max_val}")
+    print(f"Pixel value range: {min_val} to {max_val}")
     print("Enter new value for each input value:")
-    mapping = get_mapping(max_val)
+    mapping = get_mapping(min_val, max_val)
 
     out_img = remap(img, mapping)
     nib.save(out_img, args.output)
